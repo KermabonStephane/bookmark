@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.dist/
+*.tsbuildinfo
+.env
+.env.local
+coverage/
+.DS_Store
+packages/chrome-extension/dist/

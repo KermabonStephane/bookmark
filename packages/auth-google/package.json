@@ -1,0 +1,25 @@
+{
+  "name": "@bookmark/auth-google",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@bookmark/application": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.270",
+    "typescript": "^5.5.0"
+  }
+}
