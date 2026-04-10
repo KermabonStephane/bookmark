@@ -8,6 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Popup redesigned with a 3-tab layout and a bottom tab bar (search, add, config) for both Chrome and Firefox extensions
+- `ConfigTab` component — inline GitHub PAT configuration directly in the popup (no need to open the options page for initial setup)
+- SVG icons for each tab: magnifying glass (search), bookmark-with-plus (add), gear (config)
+
+### Fixed
+- `ChromeMetadataExtractor`: `BookmarkUrl` was imported from `@bookmark/application` instead of `@bookmark/domain`
+- `ChromeStorageCacheAdapter`: `Bookmark`/`BookmarkId` were `import type` but used as values (`new Bookmark`, `BookmarkId.of`)
+
+### Changed
+- Popup header toggle (Save / Search) replaced by bottom navigation tab bar
 - `@bookmark/firefox-extension` package — MV3 Firefox extension (Firefox 121+) with Preact popup, options page, background script, and content script
 - `FirefoxStorageCacheAdapter` — `browser.storage.local` cache adapter for Firefox
 - `FirefoxMetadataExtractor` — active tab metadata extraction via `browser.tabs`
