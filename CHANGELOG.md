@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Firefox extension now includes the same icons (16×16, 32×32, 48×48, 128×128) as the Chrome extension, enabling proper browser toolbar and extension-manager display
 - Popup redesigned with a 3-tab layout and a bottom tab bar (search, add, config) for both Chrome and Firefox extensions
 - `ConfigTab` component — inline GitHub PAT configuration directly in the popup (no need to open the options page for initial setup)
 - SVG icons for each tab: magnifying glass (search), bookmark-with-plus (add), gear (config)
