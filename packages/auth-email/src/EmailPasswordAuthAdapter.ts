@@ -1,17 +1,20 @@
 import type { AuthCredentials, AuthPort, AuthSession } from "@bookmark/application";
 import { FirebaseAuthClient } from "./FirebaseAuthClient.js";
 import { TokenStorage } from "./TokenStorage.js";
+import type { BrowserStorage } from "./TokenStorage.js";
 
 export interface EmailAuthConfig {
   firebaseApiKey: string;
+  storage: BrowserStorage;
 }
 
 export class EmailPasswordAuthAdapter implements AuthPort {
   private readonly client: FirebaseAuthClient;
-  private readonly storage = new TokenStorage();
+  private readonly storage: TokenStorage;
 
   constructor(config: EmailAuthConfig) {
     this.client = new FirebaseAuthClient(config.firebaseApiKey);
+    this.storage = new TokenStorage(config.storage);
   }
 
   async signIn(credentials: AuthCredentials): Promise<AuthSession> {

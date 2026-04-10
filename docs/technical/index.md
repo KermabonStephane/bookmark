@@ -8,6 +8,7 @@ The system uses Hexagonal Architecture (Ports and Adapters):
 
 ```
 chrome-extension   →   application (use cases)   →   domain
+firefox-extension  →   application (use cases)   →   domain
 github-storage     →   application (StoragePort)
 auth-google        →   application (AuthPort)
 auth-email         →   application (AuthPort)
@@ -22,6 +23,7 @@ auth-email         →   application (AuthPort)
 @bookmark/auth-google      → @bookmark/application
 @bookmark/auth-email       → @bookmark/application
 @bookmark/chrome-extension → all of the above
+@bookmark/firefox-extension → domain, application, github-storage, auth-email (no auth-google)
 ```
 
 ## Data Model
@@ -66,19 +68,23 @@ Free-form markdown notes.
 ]
 ```
 
-## Chrome Extension Entry Points
+## Extension Entry Points
+
+Both extensions share the same structure. The composition root (`container.ts`) is the only file that differs between them.
 
 | File | Role |
 |---|---|
-| `src/background/background.ts` | Service worker: sync scheduler, message handler |
+| `src/background/background.ts` | Background script: sync scheduler, message handler |
 | `src/popup/popup.ts` | Popup entry: QuickSave + Search |
 | `src/options/options.ts` | Options page: GitHub config, auth, sync |
 | `src/content/content.ts` | Content script: page metadata extraction |
 | `src/composition/container.ts` | Composition root: wires all adapters + use cases |
 
+See [Firefox Extension — Installation Guide](./firefox-extension.md) for setup and loading instructions.
+
 ## Configuration
 
-Stored in `chrome.storage.local` under `bm_config`:
+Stored in `browser.storage.local` (Chrome: `chrome.storage.local`) under `bm_config`:
 
 ```typescript
 {
@@ -95,6 +101,6 @@ Stored in `chrome.storage.local` under `bm_config`:
 
 ## Security Notes
 
-- GitHub PAT stored in `chrome.storage.local` (not `sync` — not uploaded to Google).
-- Auth tokens stored in `chrome.storage.local`.
+- GitHub PAT stored in `browser.storage.local` (not `sync` — never uploaded to Google or Mozilla).
+- Auth tokens stored in `browser.storage.local`.
 - Phase 2: evaluate `SubtleCrypto` for at-rest encryption of sensitive values.

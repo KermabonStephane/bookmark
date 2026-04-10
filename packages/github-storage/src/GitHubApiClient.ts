@@ -77,7 +77,7 @@ export class GitHubApiClient {
         "Content-Type": "application/json",
         "X-GitHub-Api-Version": "2022-11-28",
       },
-      body: body !== undefined ? JSON.stringify(body) : undefined,
+      ...(body !== undefined && { body: JSON.stringify(body) }),
     });
 
     if (response.status === 403 || response.status === 429) {

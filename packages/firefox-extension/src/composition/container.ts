@@ -1,10 +1,13 @@
 /**
  * Composition root — the ONLY file that imports from infrastructure packages.
  * Wire all adapters and use cases here.
+ *
+ * Note: Google OAuth is not supported in the Firefox extension (deferred).
+ * Authentication is handled via email/password (Firebase Auth REST).
  */
+import browser from "webextension-polyfill";
 import { GitHubMarkdownAdapter } from "@bookmark/github-storage";
 import type { GitHubConfig } from "@bookmark/github-storage";
-import { GoogleAuthAdapter } from "@bookmark/auth-google";
 import { EmailPasswordAuthAdapter } from "@bookmark/auth-email";
 import {
   SaveBookmarkService,
@@ -15,22 +18,20 @@ import {
   SyncService,
   ListCollectionsService,
 } from "@bookmark/application";
-import { ChromeStorageCacheAdapter } from "../adapters/ChromeStorageCacheAdapter.js";
-import { ChromeMetadataExtractor } from "../adapters/ChromeMetadataExtractor.js";
+import { FirefoxStorageCacheAdapter } from "../adapters/FirefoxStorageCacheAdapter.js";
+import { FirefoxMetadataExtractor } from "../adapters/FirefoxMetadataExtractor.js";
 
 export interface AppConfig {
   github: GitHubConfig;
-  googleClientId: string;
   firebaseApiKey: string;
 }
 
 export function createContainer(config: AppConfig) {
-  const cache = new ChromeStorageCacheAdapter();
+  const cache = new FirefoxStorageCacheAdapter();
   const storage = new GitHubMarkdownAdapter(config.github);
-  const metadataExtractor = new ChromeMetadataExtractor();
+  const metadataExtractor = new FirefoxMetadataExtractor();
 
-  const googleAuth = new GoogleAuthAdapter({ clientId: config.googleClientId });
-  const emailAuth = new EmailPasswordAuthAdapter({ firebaseApiKey: config.firebaseApiKey, storage: chrome.storage.local });
+  const emailAuth = new EmailPasswordAuthAdapter({ firebaseApiKey: config.firebaseApiKey, storage: browser.storage.local });
 
   return {
     // Use cases
@@ -40,14 +41,12 @@ export function createContainer(config: AppConfig) {
     updateBookmark: new UpdateBookmarkService(storage, cache),
     listCollections: new ListCollectionsService(storage),
     sync: new SyncService(storage, cache),
-    authenticateGoogle: new AuthenticateService(googleAuth),
     authenticateEmail: new AuthenticateService(emailAuth),
 
     // Adapters (for direct use in background/options)
     cache,
     storage,
     metadataExtractor,
-    googleAuth,
     emailAuth,
   };
 }
