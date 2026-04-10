@@ -4,7 +4,7 @@
 import browser from "webextension-polyfill";
 import { createContainer } from "../composition/container.js";
 import { SyncScheduler } from "./SyncScheduler.js";
-import { MessageHandler } from "./MessageHandler.js";
+import { MessageHandler, type Message } from "./MessageHandler.js";
 
 async function loadConfig() {
   const result = await browser.storage.local.get("bm_config");
@@ -41,6 +41,6 @@ browser.runtime.onMessage.addListener((message) => {
 
     const container = createContainer(config);
     const handler = new MessageHandler(container);
-    handler.register();
+    return handler.handle(message as Message);
   })();
 });

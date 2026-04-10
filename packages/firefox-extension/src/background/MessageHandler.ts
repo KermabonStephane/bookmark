@@ -1,4 +1,3 @@
-import browser from "webextension-polyfill";
 import type { Container } from "../composition/container.js";
 
 export type Message =
@@ -9,13 +8,7 @@ export type Message =
 export class MessageHandler {
   constructor(private readonly container: Container) {}
 
-  register(): void {
-    browser.runtime.onMessage.addListener((message: unknown) => {
-      return this.handle(message as Message);
-    });
-  }
-
-  private async handle(message: Message): Promise<unknown> {
+  async handle(message: Message): Promise<unknown> {
     switch (message.type) {
       case "SYNC_NOW":
         return this.container.sync.execute();

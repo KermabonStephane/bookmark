@@ -21,9 +21,10 @@ export function StorageConfig() {
 
   async function handleSubmit(e: Event) {
     e.preventDefault();
+    const trimmed = { ...config, pat: config.pat.trim(), owner: config.owner.trim(), repo: config.repo.trim(), branch: config.branch.trim() };
     const current = await browser.storage.local.get("bm_config");
     await browser.storage.local.set({
-      bm_config: { ...(current["bm_config"] ?? {}), github: config },
+      bm_config: { ...(current["bm_config"] ?? {}), github: trimmed },
     });
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
