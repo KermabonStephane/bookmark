@@ -7,9 +7,7 @@ async function init(): Promise<void> {
   const config = result["bm_config"] as Parameters<typeof createContainer>[0] | undefined;
 
   if (!config) {
-    document.getElementById("app")!.innerHTML =
-      '<p style="padding:16px">Please configure your GitHub repository in the <a href="#" id="opts">options page</a>.</p>';
-    document.getElementById("opts")?.addEventListener("click", () => chrome.runtime.openOptionsPage());
+    render(<App initialTab="config" />, document.getElementById("app")!);
     return;
   }
 

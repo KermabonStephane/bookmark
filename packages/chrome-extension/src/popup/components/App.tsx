@@ -11,7 +11,8 @@ import { DEFAULT_QUERY } from "@bookmark/application";
 type Tab = "search" | "add" | "config";
 
 interface AppProps {
-  container: Container;
+  container?: Container;
+  initialTab?: Tab;
 }
 
 function IconSearch() {
@@ -48,12 +49,13 @@ const TAB_ICONS: Record<Tab, () => preact.JSX.Element> = {
   config: IconConfig,
 };
 
-export function App({ container }: AppProps) {
-  const [tab, setTab] = useState<Tab>("search");
+export function App({ container, initialTab = "search" }: AppProps) {
+  const [tab, setTab] = useState<Tab>(initialTab);
   const [results, setResults] = useState<Bookmark[]>([]);
   const [total, setTotal] = useState(0);
 
   async function handleSearch(query: BookmarkQuery) {
+    if (!container) return;
     const page = await container.searchBookmarks.execute(query);
     setResults(page.items);
     setTotal(page.total);
@@ -62,7 +64,7 @@ export function App({ container }: AppProps) {
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <main style={{ flex: 1, overflow: "auto", padding: "12px" }}>
-        {tab === "search" && (
+        {tab === "search" && container && (
           <>
             <SearchBar defaultQuery={DEFAULT_QUERY} onSearch={handleSearch} />
             <BookmarkList
@@ -73,7 +75,7 @@ export function App({ container }: AppProps) {
             />
           </>
         )}
-        {tab === "add" && <QuickSave container={container} />}
+        {tab === "add" && container && <QuickSave container={container} />}
         {tab === "config" && <ConfigTab />}
       </main>
 
