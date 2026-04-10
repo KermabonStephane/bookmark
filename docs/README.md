@@ -5,7 +5,7 @@ A pluggable bookmark management system. Store and browse your bookmarks with swa
 ## Architecture
 
 - **Storage**: Pluggable via `StoragePort`. First backend: Markdown files in a GitHub repository.
-- **UI**: Pluggable frontends. First: Chrome Extension (TypeScript + Preact).
+- **UI**: Pluggable frontends. Chrome Extension and Firefox Extension (TypeScript + Preact).
 - **Auth**: Pluggable via `AuthPort`. Google OAuth and Email/Password.
 
 Built with Hexagonal Architecture — the domain layer has zero external dependencies.
@@ -24,7 +24,15 @@ pnpm build
 
 # Build Chrome Extension (development mode with watch)
 pnpm --filter @bookmark/chrome-extension dev
+
+# Build Firefox Extension (development mode with watch)
+pnpm --filter @bookmark/firefox-extension dev
+
+# Run Firefox Extension in Firefox (requires web-ext)
+pnpm --filter @bookmark/firefox-extension run:firefox
 ```
+
+See [How to install the Firefox extension](./technical/firefox-extension.md) for step-by-step instructions.
 
 ## Documentation
 
@@ -42,3 +50,4 @@ pnpm --filter @bookmark/chrome-extension dev
 | `@bookmark/auth-google` | Google OAuth adapter (Chrome Identity API) |
 | `@bookmark/auth-email` | Email/Password adapter (Firebase Auth REST) |
 | `@bookmark/chrome-extension` | Chrome Extension UI (Preact, Manifest V3) |
+| `@bookmark/firefox-extension` | Firefox Extension UI (Preact, Manifest V3, Firefox 121+) |
