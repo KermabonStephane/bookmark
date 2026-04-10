@@ -1,4 +1,4 @@
-import type { Bookmark, BookmarkId } from "@bookmark/domain";
+import type { BookmarkId } from "@bookmark/domain";
 import type { BookmarkPage, BookmarkQuery, CachePort } from "@bookmark/application";
 
 const CACHE_KEY = "bm_cache_v1";
@@ -145,7 +145,7 @@ function serializeBookmark(b: Bookmark): SerializedBookmark {
 
 import {
   Bookmark,
-  BookmarkId,
+  BookmarkId as BookmarkIdClass,
   BookmarkUrl,
   BookmarkTitle,
   CollectionPath,
@@ -156,7 +156,7 @@ import {
 
 function deserializeBookmark(raw: SerializedBookmark): Bookmark {
   return new Bookmark({
-    id: BookmarkId.of(raw.id),
+    id: BookmarkIdClass.of(raw.id),
     url: BookmarkUrl.of(raw.url),
     title: BookmarkTitle.of(raw.title),
     description: raw.description,
