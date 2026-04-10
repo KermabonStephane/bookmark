@@ -76,9 +76,9 @@ export class GitHubMarkdownAdapter implements StoragePort {
     const manifest = await this.loadManifest();
 
     const results = manifest.search({
-      search: query.search,
-      tags: query.tags?.map((t) => t.toString()),
-      collection: query.collection?.toString(),
+      ...(query.search !== undefined && { search: query.search }),
+      ...(query.tags !== undefined && { tags: query.tags.map((t) => t.toString()) }),
+      ...(query.collection !== undefined && { collection: query.collection.toString() }),
     });
 
     const sorted = results.sort((a, b) => {

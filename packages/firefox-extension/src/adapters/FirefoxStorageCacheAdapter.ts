@@ -1,6 +1,7 @@
 import browser from "webextension-polyfill";
-import type { Bookmark, BookmarkId } from "@bookmark/domain";
+import type { BookmarkId } from "@bookmark/domain";
 import {
+  Bookmark,
   BookmarkId as BookmarkIdClass,
   BookmarkUrl,
   BookmarkTitle,

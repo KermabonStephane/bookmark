@@ -30,7 +30,7 @@ export function createContainer(config: AppConfig) {
   const metadataExtractor = new ChromeMetadataExtractor();
 
   const googleAuth = new GoogleAuthAdapter({ clientId: config.googleClientId });
-  const emailAuth = new EmailPasswordAuthAdapter({ firebaseApiKey: config.firebaseApiKey });
+  const emailAuth = new EmailPasswordAuthAdapter({ firebaseApiKey: config.firebaseApiKey, storage: chrome.storage.local });
 
   return {
     // Use cases

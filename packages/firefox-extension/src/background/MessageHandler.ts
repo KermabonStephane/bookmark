@@ -1,3 +1,4 @@
+import browser from "webextension-polyfill";
 import type { Container } from "../composition/container.js";
 
 export type Message =

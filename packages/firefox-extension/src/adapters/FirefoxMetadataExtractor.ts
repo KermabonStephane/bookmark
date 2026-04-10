@@ -1,5 +1,6 @@
 import browser from "webextension-polyfill";
-import type { BookmarkUrl, MetadataExtractionPort, PageMetadata } from "@bookmark/application";
+import type { BookmarkUrl } from "@bookmark/domain";
+import type { MetadataExtractionPort, PageMetadata } from "@bookmark/application";
 
 export class FirefoxMetadataExtractor implements MetadataExtractionPort {
   async extractFromUrl(url: BookmarkUrl): Promise<PageMetadata> {

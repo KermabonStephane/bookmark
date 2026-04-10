@@ -5,6 +5,7 @@
  * Note: Google OAuth is not supported in the Firefox extension (deferred).
  * Authentication is handled via email/password (Firebase Auth REST).
  */
+import browser from "webextension-polyfill";
 import { GitHubMarkdownAdapter } from "@bookmark/github-storage";
 import type { GitHubConfig } from "@bookmark/github-storage";
 import { EmailPasswordAuthAdapter } from "@bookmark/auth-email";
@@ -30,7 +31,7 @@ export function createContainer(config: AppConfig) {
   const storage = new GitHubMarkdownAdapter(config.github);
   const metadataExtractor = new FirefoxMetadataExtractor();
 
-  const emailAuth = new EmailPasswordAuthAdapter({ firebaseApiKey: config.firebaseApiKey });
+  const emailAuth = new EmailPasswordAuthAdapter({ firebaseApiKey: config.firebaseApiKey, storage: browser.storage.local });
 
   return {
     // Use cases
